@@ -153,5 +153,5 @@ class TestingConfig(DefaultConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = 'sqlite://'  # keep testing db in memory
-    CACHE_TYPE = 'null'
+    CACHE_TYPE = 'simple'
     CACHE_NO_NULL_WARNING = True

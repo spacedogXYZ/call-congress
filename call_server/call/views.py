@@ -11,7 +11,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from ..extensions import csrf, db
 
 from .models import Call, Session
-from ..campaign.constants import ORDER_SHUFFLE, LOCATION_POSTAL, LOCATION_DISTRICT
+from ..campaign.constants import LOCATION_POSTAL, LOCATION_DISTRICT
 from ..campaign.models import Campaign, Target
 from ..political_data.lookup import locate_targets
 
@@ -166,8 +166,10 @@ def make_calls(params, campaign):
         play_or_say(resp, campaign.audio('msg_invalid_location'), location=params['userLocation'])
         resp.hangup()
 
-    if campaign.target_ordering == ORDER_SHUFFLE:
+    if campaign.target_ordering == 'shuffle':
         # reshuffle for each caller
+        # FIXME: Hard-coded special case. This should be implemented somewhere
+        #        in call_server/political_data/countries.
         random.shuffle(params['targetIds'])
 
     # limit calls to maximum number
@@ -358,7 +360,7 @@ def make_single():
     params['call_index'] = i
 
     (uid, prefix) = parse_target(params['targetIds'][i])
-    (current_target, cached) = Target.get_uid_or_cache(uid, prefix)
+    (current_target, cached) = Target.get_or_cache_key(uid, prefix)
     if cached:
         # save Target to database
         db.session.add(current_target)
@@ -397,7 +399,7 @@ def complete():
         abort(400)
 
     (uid, prefix) = parse_target(params['targetIds'][i])
-    (current_target, cached) = Target.get_uid_or_cache(uid, prefix)
+    (current_target, cached) = Target.get_or_cache_key(uid, prefix)
     call_data = {
         'session_id': params['sessionId'],
         'campaign_id': campaign.id,

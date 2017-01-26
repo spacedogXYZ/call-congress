@@ -1,5 +1,6 @@
 import os
 import logging
+import glob
 
 from flask import Flask, g, request, session
 from flask.ext.assets import Bundle
@@ -173,7 +174,8 @@ def configure_assets(app):
                       filters='rjsmin', output='dist/js/graph.js')
     assets.register('graph_js', graph_js)
 
-    site_js = Bundle('scripts/site.js', 'scripts/site/*.js',
+    site_js = Bundle('scripts/site/app.js',
+                     'scripts/site/views/*.js',
                      output='dist/js/site.js')
     assets.register('site_js', site_js)
 

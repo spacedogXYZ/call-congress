@@ -17,10 +17,20 @@ class Location(dict):
             return None
 
     @property
-    def location(self):
+    def latlon(self):
         lat = self.get('location', {}).get('lat')
         lon = self.get('location', {}).get('lng')
         return (lat, lon)
+
+    @property
+    def zipcode(self):
+        if 'zipcode' in self:
+            return self.get('zipcode')
+        elif 'address_components' in self.keys():
+            return self.get('address_components', {}).get('zipcode')
+        else:
+            return None
+
 
 
 class Geocoder(object):
@@ -51,7 +61,16 @@ class Geocoder(object):
             return Location(results[0])
 
     def reverse(self, latlon):
-        results = self.client.reverse(latlon).get('results')
+        if type(latlon) == tuple:
+            lat = latlon[0]
+            lon = latlon[1]
+        else:
+            try:
+                (lat, lon) = latlon.split(',')
+            except ValueError:
+                raise ValueError('unable to parse latlon as either tuple or comma delimited string')
+
+        results = self.client.reverse((lat, lon)).get('results')
         if not results:
             return None
         else:
