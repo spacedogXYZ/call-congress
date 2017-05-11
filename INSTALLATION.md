@@ -33,8 +33,8 @@ If you are storing assets on Amazon S3, or another [Flask-Store provider](http:/
 * STORE_S3_BUCKET
 * STORE_S3_REGION (eg: us-east-1, or us-west-2)
 * STORE_DOMAIN (automatically set by S3 region and bucket, override if you are using another provider)
-* S3_ACCESS_KEY
-* S3_SECRET_KEY
+* STORE_S3_ACCESS_KEY
+* STORE_S3_SECRET_KEY
 
 If you would like to let users reset their passwords over email:
 
