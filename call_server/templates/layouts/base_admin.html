@@ -54,8 +54,6 @@
 <script>
     window.CallPower = {
       Config: {
-        OPENSTATES_API_KEY: "{{OPENSTATES_API_KEY}}",
-        OPENSTATES_URL: "https://v3.openstates.org/",
         {% if twilio_capability %}TWILIO_CAPABILITY: "{{twilio_capability.generate()}}", {%endif%}
       }
     };
