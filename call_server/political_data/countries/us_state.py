@@ -89,10 +89,11 @@ class USStateData(DataProvider):
             except ValueError:
                 raise ValueError('USStateData requires location as lat,lon')
 
-        params = dict(lat=float(lat), lng=float(lon))
+        params = dict(lat=float(lat), lng=float(lon), include='offices')
         s = Session()
         s.headers.update({'X-Api-Key': os.environ.get('OPENSTATES_API_KEY')})
         response = s.get("https://v3.openstates.org/people.geo", params=params)
+        s.close()
         if response.status_code != 200:
             if response.status_code == 404:
                 raise NotFound("Not found: {0}".format(response.url))

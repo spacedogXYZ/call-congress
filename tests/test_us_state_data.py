@@ -23,13 +23,15 @@ class TestData(BaseTestCase):
         # returns a list of bioguide ids
         self.assertEqual(len(uids), 2)
 
-        senator = self.us_state_data.get_uid(uids[0])
-        self.assertEqual(senator['current_role']['org_classification'], 'lower')
-        self.assertEqual(senator['jurisdiction']['name'].upper(), 'CALIFORNIA')
-
-        house_rep = self.us_state_data.get_uid(uids[1])
-        self.assertEqual(house_rep['current_role']['org_classification'], 'upper')
+        house_rep = self.us_state_data.get_uid(uids[0])
+        self.assertEqual(house_rep['current_role']['title'], 'Assemblymember')
+        self.assertEqual(house_rep['current_role']['org_classification'], 'lower')
         self.assertEqual(house_rep['jurisdiction']['name'].upper(), 'CALIFORNIA')
+
+        senator = self.us_state_data.get_uid(uids[1])
+        self.assertEqual(senator['current_role']['title'], 'Senator')
+        self.assertEqual(senator['current_role']['org_classification'], 'upper')
+        self.assertEqual(senator['jurisdiction']['name'].upper(), 'CALIFORNIA')
 
     def test_locate_targets_house_only(self):
         oakland_ca = "37.804417,-122.267747"
