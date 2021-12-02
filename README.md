@@ -56,7 +56,7 @@ Political Data
 
 Political data is downloaded as CSV files stored in this repository. These are read on startup and saved in a memory cache for fast local lookup.
 
-To update these files with new data after elections, run `cd call_server/political_data/data && make clean && make`, and `python manager.py load_political_data`
+To update these files with new data after elections, run `cd call_server/political_data/data && make clean && make`, and `python manager.py loadpoliticaldata`
 
 
 Code License

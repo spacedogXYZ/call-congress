@@ -2,7 +2,6 @@ import csv
 import collections
 import os
 import random
-import re
 
 from requests import Session
 from . import DataProvider
@@ -100,15 +99,11 @@ class USStateData(DataProvider):
             else:
                 raise Exception(response.text)
 
-        # this 'results' json includes federal-level legislators
         legislators = response.json()['results']
         targets = []
         senators = []
         house_reps = []
 
-        # save full legislator data to cache
-        # just uids to result list
-        regex = r'state:([\S]*)\/'
         for l in legislators:
             parts = l['jurisdiction']['id'].partition('state:')
             state_abbr = parts[2].partition("/")[0]
