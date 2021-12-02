@@ -27,15 +27,11 @@ class UnitedStatesData(object):
         return mapped
 
 
-# adapts data from OpenStates for federal-level Senators and Representatives, not state-level legislators
 class OpenStatesData(object):
     def adapt(self, data):
         mapped = {}
         mapped['name'] = data['name']
-        if data['current_role']['org_classification'] == "upper" and data['jurisdiction']['name'].upper() == "UNITED STATES":
-            mapped['title'] = "Senator"
-        if data['current_role']['org_classification'] == "lower" and data['jurisdiction']['name'].upper() == "UNITED STATES":
-            mapped['title'] = "Representative"
+        mapped['title'] = data['current_role']['title']
         if type(data['offices']) == list and 'voice' in data['offices'][0]:
             mapped['number'] = data['offices'][0]['voice']
         elif type(data['offices']) == dict and 'voice' in data['offices']:
@@ -50,7 +46,7 @@ class OpenStatesData(object):
 class GovernorAdapter(object):
     def adapt(self, data):
         mapped = {}
-        mapped['name'] = u'{first_name} {last_name}'.format(**data)
+        mapped['name'] = data['name']
         mapped['title'] = data['title']
         mapped['number'] = data['phone']
         mapped['uid'] = data['state']
