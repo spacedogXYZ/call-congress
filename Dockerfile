@@ -1,7 +1,7 @@
-FROM python:2.7-stretch
+FROM python:2.7-buster
 RUN apt-get update && \
   curl -sL https://deb.nodesource.com/setup_4.x | bash && \
-  apt-get -y install git uwsgi libpq-dev curl unzip nodejs
+  apt-get -y install git uwsgi libpq-dev curl unzip nodejs npm
 
 RUN  mkdir /ngrok && \
      cd /ngrok && \
