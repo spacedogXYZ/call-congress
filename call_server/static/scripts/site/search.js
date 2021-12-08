@@ -83,10 +83,9 @@
           url: CallPower.Config.OPENSTATES_URL,
           data: {
             apikey: CallPower.Config.OPENSTATES_API_KEY,
-            state: campaign_state,
-            in_office: true,
-            chamber: chamber,
-            last_name: query // NB, we can't do generic query for OpenStates, let user select field?
+            jurisdiction: campaign_state,
+            org_classification: chamber, // this can be "legislative", "executive", "upper", "lower", "government"
+            name: query // NB, we can't do generic query for OpenStates, let user select field?
           },
           success: self.renderSearchResults,
           error: self.errorSearchResults,
@@ -136,10 +135,17 @@
           person.uid = 'us_state:governor:'+person.state
         }
 
+        if (person.given_name) {
+          person.first_name = person.given_name;
+          person.last_name = person.family_name;
+          person.title = person.current_role.title;
+          person.state = person.jurisdiction.name;
+        }
+
         // if person has multiple phones, use only the first office
         if (person.phone === undefined && person.offices) {
           if (person.offices) {
-            person.phone = person.offices[0].phone;
+            person.phone = person.offices[0].voice;
           }
         }
 
