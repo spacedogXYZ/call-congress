@@ -66,8 +66,8 @@ To install locally and run in debug mode use:
     # create an admin user
     python manager.py createadminuser
 
-    # if testing twilio, run in another tab
-    ngrok http 5000
+    # if testing twilio, run in another tab -- you will have to sign up for an ngrok account to get your auth token
+    ngrok http --authtoken=$YOUR_AUTH_TOKEN 5000
  
     # run local server for debugging, pass external name from ngrok
     python manager.py runserver --external=SERVERID.ngrok.io
