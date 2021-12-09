@@ -54,10 +54,9 @@
 <script>
     window.CallPower = {
       Config: {
-        SUNLIGHT_API_KEY: "{{SUNLIGHT_API_KEY}}",
-        SUNLIGHT_CONGRESS_URL: "https://congress.api.sunlightfoundation.com/legislators/",
-        SUNLIGHT_STATES_URL: "http://openstates.org/api/v1/legislators/",
         {% if twilio_capability %}TWILIO_CAPABILITY: "{{twilio_capability.generate()}}", {%endif%}
+        OPENSTATES_URL: "https://v3.openstates.org/people?include=offices", //need offices in the response to get phone number
+        OPENSTATES_API_KEY: "{{OPENSTATES_API_KEY}}"
       }
     };
 </script>

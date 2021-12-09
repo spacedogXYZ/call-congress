@@ -29,7 +29,7 @@
 
     doTargetSearch: function(event) {
       var self = this;
-      // search the Sunlight API for the named target
+      // search the OpenStates API for the named target
       var query = $('input[name="target-search"]').val();
 
       var campaign_type = $('select[name="campaign_type"]').val();
@@ -37,7 +37,7 @@
       var chamber = $('select[name="campaign_subtype"]').val();
 
       if (campaign_type === 'congress') {
-        // hit Sunlight OpenCongress v3
+        // hit OpenStates
 
         //convert generic chamber names to House / Senate
         if (chamber === 'lower') {
@@ -51,11 +51,10 @@
         }
 
         $.ajax({
-          url: CallPower.Config.SUNLIGHT_CONGRESS_URL,
+          url: CallPower.Config.OPENSTATES_URL,
           data: {
-            apikey: CallPower.Config.SUNLIGHT_API_KEY,
-            in_office: true,
-            chamber: chamber,
+            apikey: CallPower.Config.OPENSTATES_API_KEY,
+            // org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
             query: query
           },
           beforeSend: function(jqXHR, settings) { console.log(settings.url); },
@@ -74,19 +73,18 @@
         });
 
       } else {
-        // hit Sunlight OpenStates
+        // hit OpenStates
 
         // TODO, request state metadata
         // display latest_json_date to user
 
         $.ajax({
-          url: CallPower.Config.SUNLIGHT_STATES_URL,
+          url: CallPower.Config.OPENSTATES_URL,
           data: {
-            apikey: CallPower.Config.SUNLIGHT_API_KEY,
-            state: campaign_state,
-            in_office: true,
-            chamber: chamber,
-            last_name: query // NB, we can't do generic query for OpenStates, let user select field?
+            apikey: CallPower.Config.OPENSTATES_API_KEY,
+            jurisdiction: campaign_state,
+            // org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
+            name: query // NB, we can't do generic query for OpenStates, let user select field?
           },
           success: self.renderSearchResults,
           error: self.errorSearchResults,
@@ -136,10 +134,17 @@
           person.uid = 'us_state:governor:'+person.state
         }
 
+        if (person.given_name) {
+          person.first_name = person.given_name;
+          person.last_name = person.family_name;
+          person.title = person.current_role.title;
+          person.state = person.jurisdiction.name;
+        }
+
         // if person has multiple phones, use only the first office
         if (person.phone === undefined && person.offices) {
           if (person.offices) {
-            person.phone = person.offices[0].phone;
+            person.phone = person.offices[0].voice;
           }
         }
 
