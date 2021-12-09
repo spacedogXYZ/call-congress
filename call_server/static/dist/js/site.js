@@ -1228,7 +1228,7 @@ $(document).ready(function () {
           url: CallPower.Config.OPENSTATES_URL,
           data: {
             apikey: CallPower.Config.OPENSTATES_API_KEY,
-            org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
+            // org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
             query: query
           },
           beforeSend: function(jqXHR, settings) { console.log(settings.url); },
@@ -1257,7 +1257,7 @@ $(document).ready(function () {
           data: {
             apikey: CallPower.Config.OPENSTATES_API_KEY,
             jurisdiction: campaign_state,
-            org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
+            // org_classification: chamber, // options: "legislature", "executive", "upper", "lower", "government"
             name: query // NB, we can't do generic query for OpenStates, let user select field?
           },
           success: self.renderSearchResults,
