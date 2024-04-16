@@ -9,7 +9,7 @@ from flask_store.providers.temp import TemporaryStore
 import sqlalchemy
 from sqlalchemy.sql import func, desc
 
-from twilio.jwt import ClientCapabilityToken
+from twilio.jwt.client import ClientCapabilityToken
 
 from ..extensions import db
 from ..utils import choice_items, choice_keys, choice_values_flat, duplicate_object
