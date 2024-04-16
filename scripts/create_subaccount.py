@@ -1,5 +1,5 @@
 import os
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 
 
 if __name__ == "__main__":
@@ -10,7 +10,7 @@ if __name__ == "__main__":
     if not auth_token:
         auth_token = raw_input('Master Account Token: ')
 
-    client = TwilioRestClient(account_sid, auth_token)
+    client = Client(account_sid, auth_token)
     friendly_name = raw_input('New SubAccount Name: ')
     account = client.accounts.create(friendly_name=friendly_name)
     print "SubAccount Created", account
