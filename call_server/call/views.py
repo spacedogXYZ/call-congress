@@ -252,7 +252,6 @@ def create():
             to=userPhone,
             from_=from_number,
             url=url_for('call.connection', _external=True, **params),
-            timeLimit=current_app.config['TWILIO_TIME_LIMIT'],
             timeout=current_app.config['TWILIO_TIMEOUT'],
             status_callback=url_for("call.complete_status", _external=True, **params))
 
