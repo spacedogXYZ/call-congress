@@ -6,6 +6,7 @@ from sqlalchemy_utils.types.phone_number import PhoneNumber, phonenumbers
 from flask import abort, Blueprint, request, url_for, current_app
 from flask_jsonpify import jsonify
 from twilio.base.exceptions import TwilioRestException
+from twilio.twiml.voice_response import VoiceResponse
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..extensions import csrf, db
@@ -102,7 +103,7 @@ def intro_wait_human(params, campaign):
     Play intro message, and wait for key press to ensure we have a human on the line.
     Then, redirect to _make_calls.
     """
-    resp = twilio.twiml.voice_response.VoiceResponse()
+    resp = VoiceResponse()
 
     play_or_say(resp, campaign.audio('msg_intro'))
 
@@ -122,7 +123,7 @@ def intro_location_gather(params, campaign):
     If specified, play msg_intro_location audio. Otherwise, standard msg_intro.
     Then, return location_gather.
     """
-    resp = twilio.twiml.voice_response.VoiceResponse()
+    resp = VoiceResponse()
 
     if campaign.audio('msg_intro_location'):
         play_or_say(resp, campaign.audio('msg_intro_location'),
@@ -153,7 +154,7 @@ def make_calls(params, campaign):
 
     Required params: campaignId, targetIds
     """
-    resp = twilio.twiml.voice_response.VoiceResponse()
+    resp = VoiceResponse()
 
     # check if campaign target_set specified
     if not params['targetIds'] and campaign.target_set:
@@ -335,7 +336,7 @@ def location_parse():
         current_app.logger.debug('entered = {}'.format(location))
 
     if not target_ids:
-        resp = twilio.twiml.voice_response.VoiceResponse()
+        resp = VoiceResponse()
         play_or_say(resp, campaign.audio('msg_unparsed_location'))
 
         return location_gather(resp, params, campaign)
@@ -363,7 +364,7 @@ def make_single():
         db.session.add(current_target)
         db.session.commit()
 
-    resp = twilio.twiml.voice_response.VoiceResponse()
+    resp = VoiceResponse()
 
     if not current_target.number:
         play_or_say(resp, campaign.audio('msg_invalid_location'))
@@ -412,7 +413,7 @@ def complete():
     except SQLAlchemyError:
         current_app.logger.error('Failed to log call:', exc_info=True)
 
-    resp = twilio.twiml.voice_response.VoiceResponse()
+    resp = VoiceResponse()
 
     if call_data['status'] == 'busy':
         play_or_say(resp, campaign.audio('msg_target_busy'),
