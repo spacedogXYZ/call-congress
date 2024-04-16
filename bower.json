@@ -25,7 +25,7 @@
     "bootstrap": "~3.3.5",
     "backbone": "~1.1.2",
     "html.sortable": "0.2.8",
-    "volume-meter": "https://github.com/cwilso/volume-meter.git",
+    "volume-meter": "https://github.com/cwilso/volume-meter.git#main",
     "audioRecord": "https://github.com/sb2702/audioRecord.js.git",
     "backbone-filtered-collection": "~0.4.0",
     "highcharts": "~4.1.7",
