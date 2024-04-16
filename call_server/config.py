@@ -32,7 +32,7 @@ class DefaultConfig(object):
     STORE_PROVIDER = 'flask_store.providers.local.LocalProvider'
     STORE_DOMAIN = 'http://localhost:5000' # requires url scheme for Flask-store.absolute_url to work
 
-    TWILIO_CLIENT = twilio.rest.TwilioRestClient(
+    TWILIO_CLIENT = twilio.rest.Client(
         os.environ.get('TWILIO_ACCOUNT_SID'),
         os.environ.get('TWILIO_AUTH_TOKEN'))
     TWILIO_PLAYBACK_APP = os.environ.get('TWILIO_PLAYBACK_APP')
