@@ -5,7 +5,7 @@ from sqlalchemy_utils.types.phone_number import PhoneNumber, phonenumbers
 
 from flask import abort, Blueprint, request, url_for, current_app
 from flask_jsonpify import jsonify
-from twilio import TwilioRestException
+from twilio.base.exceptions import TwilioRestException
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..extensions import csrf, db
