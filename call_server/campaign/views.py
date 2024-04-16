@@ -9,7 +9,7 @@ from flask_store.providers.temp import TemporaryStore
 import sqlalchemy
 from sqlalchemy.sql import func, desc
 
-from twilio.util import TwilioCapability
+from twilio.jwt import ClientCapabilityToken
 
 from ..extensions import db
 from ..utils import choice_items, choice_keys, choice_values_flat, duplicate_object
@@ -145,7 +145,7 @@ def audio(campaign_id):
     form = CampaignAudioForm()
 
     twilio_client = current_app.config.get('TWILIO_CLIENT')
-    twilio_capability = TwilioCapability(*twilio_client.auth)
+    twilio_capability = ClientCapabilityToken(*twilio_client.auth)
     twilio_capability.allow_client_outgoing(current_app.config.get('TWILIO_PLAYBACK_APP'))
 
     for field in form:
